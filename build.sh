@@ -2,17 +2,21 @@
 
 set -e
 
-PWD=$(pwd)
-OUT="$PWD/out"
-FILES="$PWD/files"
-PREBUILTS="$PWD/prebuilts"
+ROOT="$(pwd)"
+OUT="$ROOT/out"
+FILES="$ROOT/files"
+PREBUILTS="$ROOT/prebuilts"
 SCRIPTS="$PREBUILTS/scripts"
 
 PARTITIONS_ALL="tz.mbn sbl1.mbn sbl2.mbn sbl3.mbn rpm.mbn emmc_appsboot.mbn misc.img NON-HLOS.bin system.img cache.img userdata.img storage.img recovery.img boot.img"
 PARTITIONS_CORE="tz.mbn sbl1.mbn sbl2.mbn sbl3.mbn rpm.mbn emmc_appsboot.mbn misc.img NON-HLOS.bin recovery.img"
 
 copy_file() {
-	cp "$PREBUILTS/$1" "$OUT/images/"
+	if [ "$2" == "1" ]; then
+		cp "$1" "$OUT/images/"
+	else
+		cp "$PREBUILTS/$1" "$OUT/images/"
+	fi
 }
 
 create_raw_image() {
@@ -83,14 +87,26 @@ create_script flash_all_except_data_storage "$(echo "$PARTITIONS_ALL" | sed -e '
 create_script flash_all_except_storage "$(echo "$PARTITIONS_ALL" | sed -e 's/\<storage.img\>//g')"
 create_script flash_core "$PARTITIONS_CORE"
 
+# generate partition table
+mkdir "$OUT/ptool"
+cd "$OUT/ptool"
+perl "$ROOT/ptool.py" -x "$ROOT/partition.xml" -p0 -f gpt
+cd "$ROOT"
+
+# remove persist from rawprogram - for some reason Xiaomi does that too
+sed -i '/persist/d' out/ptool/rawprogram0.xml
+
 # DLOAD
-copy_file dload/rawprogram0.xml
-copy_file dload/patch0.xml
-copy_file dload/gpt_both0.bin
-copy_file dload/gpt_main0.bin
-copy_file dload/gpt_backup0.bin
+copy_file out/ptool/rawprogram0.xml 1
+copy_file out/ptool/patch0.xml 1
+copy_file out/ptool/gpt_both0.bin 1
+copy_file out/ptool/gpt_main0.bin 1
+copy_file out/ptool/gpt_backup0.bin 1
 copy_file dload/MPRG8064.hex
 copy_file dload/8064_msimage.mbn
+
+# remove cleanup ptool directory
+rm -R "$OUT/ptool"
 
 # bootloaders
 copy_file bootloaders/sbl1.mbn
