@@ -9,6 +9,7 @@ PREBUILTS="$PWD/prebuilts"
 SCRIPTS="$PREBUILTS/scripts"
 
 PARTITIONS_ALL="tz.mbn sbl1.mbn sbl2.mbn sbl3.mbn rpm.mbn emmc_appsboot.mbn misc.img NON-HLOS.bin system.img cache.img userdata.img storage.img recovery.img boot.img"
+PARTITIONS_CORE="tz.mbn sbl1.mbn sbl2.mbn sbl3.mbn rpm.mbn emmc_appsboot.mbn misc.img NON-HLOS.bin recovery.img"
 
 copy_file() {
 	cp "$PREBUILTS/$1" "$OUT/images/"
@@ -80,7 +81,7 @@ mkdir "$OUT/images"
 create_script flash_all "$PARTITIONS_ALL"
 create_script flash_all_except_data_storage "$(echo "$PARTITIONS_ALL" | sed -e 's/\<storage.img\>//g' | sed -e 's/\<userdata.img\>//g')"
 create_script flash_all_except_storage "$(echo "$PARTITIONS_ALL" | sed -e 's/\<storage.img\>//g')"
-#cp $SCRIPTS/* $OUT/
+create_script flash_core "$PARTITIONS_CORE"
 
 # DLOAD
 copy_file dload/rawprogram0.xml
@@ -110,10 +111,3 @@ create_raw_image misc 8192
 create_raw_image cache 33554432
 create_ext4_fs userdata 536870912 # needs extend
 create_ext4_fs storage 320864256  # needs extend
-
-
-
-
-
-
-
