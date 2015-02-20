@@ -2,6 +2,9 @@
 
 set -e
 
+PARTXML="partition.xml"
+[[ -n "$1" ]] && PARTXML="$1"
+
 ROOT="$(pwd)"
 OUT="$ROOT/out"
 FILES="$ROOT/files"
@@ -92,7 +95,7 @@ create_script flash_core "$PARTITIONS_CORE"
 # generate partition table
 mkdir "$OUT/ptool"
 cd "$OUT/ptool"
-perl "$ROOT/ptool.py" -x "$ROOT/partition.xml" -p0 -f gpt
+perl "$ROOT/ptool.py" -x "$ROOT/$PARTXML" -p0 -f gpt
 cd "$ROOT"
 
 # remove persist from rawprogram - for some reason Xiaomi does that too
