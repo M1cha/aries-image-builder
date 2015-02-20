@@ -94,10 +94,20 @@ perl "$ROOT/ptool.py" -x "$ROOT/partition.xml" -p0 -f gpt
 cd "$ROOT"
 
 # remove persist from rawprogram - for some reason Xiaomi does that too
-sed -i '/persist/d' out/ptool/rawprogram0.xml
+sed -i '/"persist"/d' out/ptool/rawprogram0.xml
+
+cp out/ptool/rawprogram0.xml out/ptool/rawprogram_core.xml
+sed -i '/"system"/d' out/ptool/rawprogram_core.xml
+sed -i '/"system1"/d' out/ptool/rawprogram_core.xml
+sed -i '/"cache"/d' out/ptool/rawprogram_core.xml
+sed -i '/"userdata"/d' out/ptool/rawprogram_core.xml
+sed -i '/"storage"/d' out/ptool/rawprogram_core.xml
+sed -i '/"boot"/d' out/ptool/rawprogram_core.xml
+sed -i '/"boot1"/d' out/ptool/rawprogram_core.xml
 
 # DLOAD
 copy_file out/ptool/rawprogram0.xml 1
+copy_file out/ptool/rawprogram_core.xml 1
 copy_file out/ptool/patch0.xml 1
 copy_file out/ptool/gpt_both0.bin 1
 copy_file out/ptool/gpt_main0.bin 1
