@@ -45,6 +45,7 @@ create_script_linux() {
 	
 	rm -f "$outfile"
 	touch "$outfile"
+	chmod +x "$outfile"
 	echo "fastboot \$* getvar soc-id 2>&1 | grep \"^soc-id: *109\$\"" >> "$outfile"
 	echo "if [ \$? -ne 0 ] ; then echo \"Missmatching image and device\"; exit 1; fi" >> "$outfile"
 	for file in $partitions ; do
@@ -63,6 +64,7 @@ create_script_windows() {
 	
 	rm -f "$outfile"
 	touch "$outfile"
+	chmod +x "$outfile"
 	echo "fastboot %* getvar soc-id 2>&1 | findstr /r /c:\"^soc-id: *109\" || echo Missmatching image and device" >> "$outfile"
 	echo "fastboot %* getvar soc-id 2>&1 | findstr /r /c:\"^soc-id: *109\" || exit /B 1" >> "$outfile"
 	for file in $partitions ; do
