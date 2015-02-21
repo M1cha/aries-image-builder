@@ -120,6 +120,9 @@ sed -i '/"userdata"/d' out/ptool/rawprogram_core.xml
 sed -i '/"storage"/d' out/ptool/rawprogram_core.xml
 sed -i '/"boot"/d' out/ptool/rawprogram_core.xml
 sed -i '/"boot1"/d' out/ptool/rawprogram_core.xml
+sed -i '/"system.img"/d' out/ptool/rawprogram_core.xml
+sed -i '/"boot.img"/d' out/ptool/rawprogram_core.xml
+sed -i '/filename="NON-HLOS.bin" label=""/d' out/ptool/rawprogram_core.xml
 
 # DLOAD
 copy_file out/ptool/rawprogram_core.xml 1
