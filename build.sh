@@ -38,6 +38,7 @@ get_partname() {
 	[ "$partname" == "NON-HLOS" ] && partname="modem+modem1"
 	[ "$partname" == "system" ] && partname="system+system1"
 	[ "$partname" == "boot" ] && partname="boot+boot1"
+	[ "$partname" == "gpt_both0" ] && partname="partition"
 
 	echo "$partname"
 }
@@ -91,6 +92,7 @@ mkdir "$OUT/images"
 #create_script flash_all_except_data_storage "$(echo "$PARTITIONS_ALL" | sed -e 's/\<storage.img\>//g' | sed -e 's/\<userdata.img\>//g')"
 #create_script flash_all_except_storage "$(echo "$PARTITIONS_ALL" | sed -e 's/\<storage.img\>//g')"
 create_script flash_core "$PARTITIONS_CORE"
+create_script flash_partition_table_and_core "gpt_both0.bin $PARTITIONS_CORE"
 
 # generate partition table
 mkdir "$OUT/ptool"
