@@ -11,8 +11,8 @@ FILES="$ROOT/files"
 PREBUILTS="$ROOT/prebuilts"
 SCRIPTS="$PREBUILTS/scripts"
 
-PARTITIONS_ALL="tz.mbn sbl1.mbn sbl2.mbn sbl3.mbn rpm.mbn emmc_appsboot.mbn misc.img NON-HLOS.bin system.img cache.img userdata.img storage.img recovery.img boot.img"
-PARTITIONS_CORE="tz.mbn sbl1.mbn sbl2.mbn sbl3.mbn rpm.mbn emmc_appsboot.mbn misc.img NON-HLOS.bin recovery.img"
+PARTITIONS_ALL="tz.mbn sbl1.mbn sbl2.mbn sbl3.mbn rpm.mbn emmc_appsboot.mbn misc.img NON-HLOS.bin persist.img system.img cache.img userdata.img storage.img recovery.img boot.img"
+PARTITIONS_CORE="tz.mbn sbl1.mbn sbl2.mbn sbl3.mbn rpm.mbn emmc_appsboot.mbn misc.img NON-HLOS.bin persist.img recovery.img"
 
 copy_file() {
 	if [ "$2" == "1" ]; then
@@ -99,9 +99,6 @@ mkdir "$OUT/ptool"
 cd "$OUT/ptool"
 perl "$ROOT/ptool.py" -x "$ROOT/$PARTXML" -p0 -f gpt
 cd "$ROOT"
-
-# remove persist from rawprogram - for some reason Xiaomi does that too
-sed -i '/"persist"/d' out/ptool/rawprogram0.xml
 
 cp out/ptool/rawprogram0.xml out/ptool/rawprogram_core.xml
 sed -i '/"system"/d' out/ptool/rawprogram_core.xml
