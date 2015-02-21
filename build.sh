@@ -88,9 +88,6 @@ mkdir "$OUT"
 mkdir "$OUT/images"
 
 # scripts
-#create_script flash_all "$PARTITIONS_ALL"
-#create_script flash_all_except_data_storage "$(echo "$PARTITIONS_ALL" | sed -e 's/\<storage.img\>//g' | sed -e 's/\<userdata.img\>//g')"
-#create_script flash_all_except_storage "$(echo "$PARTITIONS_ALL" | sed -e 's/\<storage.img\>//g')"
 create_script flash_core "$PARTITIONS_CORE"
 create_script flash_partition_table_and_core "gpt_both0.bin $PARTITIONS_CORE"
 
@@ -110,7 +107,6 @@ sed -i '/"boot"/d' out/ptool/rawprogram_core.xml
 sed -i '/"boot1"/d' out/ptool/rawprogram_core.xml
 
 # DLOAD
-#copy_file out/ptool/rawprogram0.xml 1
 copy_file out/ptool/rawprogram_core.xml 1
 copy_file out/ptool/patch0.xml 1
 copy_file out/ptool/gpt_both0.bin 1
@@ -138,6 +134,3 @@ copy_file recovery.img
 # generate common partitions
 create_raw_image dummy 8192
 create_raw_image misc 8192
-#create_raw_image cache 33554432
-#create_ext4_fs userdata 536870912 # needs extend
-#create_ext4_fs storage 320864256  # needs extend
