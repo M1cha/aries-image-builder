@@ -60,7 +60,7 @@ def do_program(package, device):
 
 		# translate filename
 		if filename == "":
-			filename = "/dev/zero"
+			continue
 		else: filename = package+"/images/"+filename
 		
 		if subprocess.call("dd if="+filename+" of="+device+" bs="+str(sector_size)+" seek="+str(start_sector)+" count="+str(sector_num), shell=True)!=0:
