@@ -51,7 +51,13 @@ create_script_linux() {
 	touch "$outfile"
 	chmod +x "$outfile"
 	echo "fastboot \$* getvar soc-id 2>&1 | grep \"^soc-id: *109\$\"" >> "$outfile"
-	echo "if [ \$? -ne 0 ] ; then echo \"Missmatching image and device\"; exit 1; fi" >> "$outfile"
+	echo "if [ \$? -ne 0 ] ; then echo \"Mismatching image and device\"; exit 1; fi" >> "$outfile"
+
+	if [[ "$partitions" =~ "gpt_both0.bin" ]]; then
+		echo "fastboot \$* getvar kernel 2>&1 | grep \"^kernel: *g4a\$\"" >> "$outfile"
+		echo "if [ \$? -ne 0 ] ; then echo \"Mismatching Bootloader version\"; exit 1; fi" >> "$outfile"
+	fi
+
 	for file in $partitions ; do
 		partname=$(get_partname "$file")
 
@@ -69,8 +75,14 @@ create_script_windows() {
 	rm -f "$outfile"
 	touch "$outfile"
 	chmod +x "$outfile"
-	echo "fastboot %* getvar soc-id 2>&1 | findstr /r /c:\"^soc-id: *109\" || echo Missmatching image and device" >> "$outfile"
+	echo "fastboot %* getvar soc-id 2>&1 | findstr /r /c:\"^soc-id: *109\" || echo Mismatching image and device" >> "$outfile"
 	echo "fastboot %* getvar soc-id 2>&1 | findstr /r /c:\"^soc-id: *109\" || exit /B 1" >> "$outfile"
+
+	if [[ "$partitions" =~ "gpt_both0.bin" ]]; then
+		echo "fastboot %* getvar kernel 2>&1 | findstr /r /c:\"^kernel: *g4a\" || echo Mismatching Bootloader version" >> "$outfile"
+		echo "fastboot %* getvar kernel 2>&1 | findstr /r /c:\"^kernel: *g4a\" || exit /B 1" >> "$outfile"
+	fi
+
 	for file in $partitions ; do
 		partname=$(get_partname "$file")
 		echo "fastboot %* flash $partname \"%~dp0images\\$file\" || @echo \"Flash $(echo $partname | cut -d+ -f1) error\" && exit /B 1" >> "$outfile"
