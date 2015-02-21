@@ -35,9 +35,15 @@ get_partname() {
 	partname=${1%.*}
 
 	[ "$partname" == "emmc_appsboot" ] && partname="aboot"
-	[ "$partname" == "NON-HLOS" ] && partname="modem+modem1"
-	[ "$partname" == "system" ] && partname="system+system1"
-	[ "$partname" == "boot" ] && partname="boot+boot1"
+	if [ "$partname" == "NON-HLOS" ];then
+		if [ "$PARTXML" == "partition_single.xml" ]; then
+			partname="modem"
+		else
+			partname="modem+modem1"
+		fi
+	fi
+	[ "$PARTXML" == "partition_single.xml" ] && [ "$partname" == "system" ] && partname="system+system1"
+	[ "$PARTXML" == "partition_single.xml" ] && [ "$partname" == "boot" ] && partname="boot+boot1"
 	[ "$partname" == "gpt_both0" ] && partname="partition"
 
 	echo "$partname"
