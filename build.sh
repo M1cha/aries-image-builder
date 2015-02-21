@@ -2,6 +2,9 @@
 
 set -e
 
+PARTXML="partition.xml"
+[[ -n "$1" ]] && PARTXML="$1"
+
 ROOT="$(pwd)"
 OUT="$ROOT/out"
 FILES="$ROOT/files"
@@ -12,8 +15,8 @@ PARTITIONS_ALL="tz.mbn sbl1.mbn sbl2.mbn sbl3.mbn rpm.mbn emmc_appsboot.mbn misc
 PARTITIONS_CORE="tz.mbn sbl1.mbn sbl2.mbn sbl3.mbn rpm.mbn emmc_appsboot.mbn misc.img NON-HLOS.bin persist.img recovery.img"
 
 copy_file() {
-	if [ "$2" != "" ]; then
-		cp "$1" "$OUT/images/$2"
+	if [ "$2" == "1" ]; then
+		cp "$1" "$OUT/images/"
 	else
 		cp "$PREBUILTS/$1" "$OUT/images/"
 	fi
@@ -36,7 +39,6 @@ get_partname() {
 	[ "$partname" == "system" ] && partname="system+system1"
 	[ "$partname" == "boot" ] && partname="boot+boot1"
 	[ "$partname" == "gpt_both0" ] && partname="partition"
-	[ "$partname" == "gpt_both0_single" ] && partname="partition"
 
 	echo "$partname"
 }
@@ -85,49 +87,36 @@ rm -rf "$OUT"
 mkdir "$OUT"
 mkdir "$OUT/images"
 
-create_partition_table() {
-	# generate partition table
-	mkdir "$OUT/ptool"
-	cd "$OUT/ptool"
-	perl "$ROOT/ptool.py" -x "$ROOT/partition$1.xml" -p0 -f gpt
-	cd "$ROOT"
+# scripts
+create_script flash_core "$PARTITIONS_CORE"
+create_script flash_partition_table_and_core "gpt_both0.bin $PARTITIONS_CORE"
 
-	cp out/ptool/rawprogram0.xml out/ptool/rawprogram_core.xml
+# generate partition table
+mkdir "$OUT/ptool"
+cd "$OUT/ptool"
+perl "$ROOT/ptool.py" -x "$ROOT/$PARTXML" -p0 -f gpt
+cd "$ROOT"
 
-	# remove ROM partitions
-	sed -i '/"system"/d' out/ptool/rawprogram_core.xml
-	sed -i '/"system1"/d' out/ptool/rawprogram_core.xml
-	sed -i '/"cache"/d' out/ptool/rawprogram_core.xml
-	sed -i '/"userdata"/d' out/ptool/rawprogram_core.xml
-	sed -i '/"storage"/d' out/ptool/rawprogram_core.xml
-	sed -i '/"boot"/d' out/ptool/rawprogram_core.xml
-	sed -i '/"boot1"/d' out/ptool/rawprogram_core.xml
-
-	# patch partition table filenames
-	sed -i "s/gpt_both0.bin/gpt_both0$1.bin/g" out/ptool/rawprogram_core.xml out/ptool/patch0.xml
-	sed -i "s/gpt_main0.bin/gpt_main0$1.bin/g" out/ptool/rawprogram_core.xml out/ptool/patch0.xml
-	sed -i "s/gpt_backup0.bin/gpt_backup0$1.bin/g" out/ptool/rawprogram_core.xml out/ptool/patch0.xml
-
-	# copy ptool files
-	copy_file "out/ptool/rawprogram_core.xml" "rawprogram_core$1.xml"
-	copy_file "out/ptool/patch0.xml" "patch0$1.xml"
-	copy_file "out/ptool/gpt_both0.bin" "gpt_both0$1.bin"
-	copy_file "out/ptool/gpt_main0.bin" "gpt_main0$1.bin"
-	copy_file "out/ptool/gpt_backup0.bin" "gpt_backup0$1.bin"
-
-	# remove ptool directory
-	rm -R "$OUT/ptool"
-
-	# generate scripts
-	create_script "flash_core$1" "$PARTITIONS_CORE"
-	create_script "flash_partition_table_and_core$1" "gpt_both0$1.bin $PARTITIONS_CORE"
-}
+cp out/ptool/rawprogram0.xml out/ptool/rawprogram_core.xml
+sed -i '/"system"/d' out/ptool/rawprogram_core.xml
+sed -i '/"system1"/d' out/ptool/rawprogram_core.xml
+sed -i '/"cache"/d' out/ptool/rawprogram_core.xml
+sed -i '/"userdata"/d' out/ptool/rawprogram_core.xml
+sed -i '/"storage"/d' out/ptool/rawprogram_core.xml
+sed -i '/"boot"/d' out/ptool/rawprogram_core.xml
+sed -i '/"boot1"/d' out/ptool/rawprogram_core.xml
 
 # DLOAD
-create_partition_table
-create_partition_table "_single"
+copy_file out/ptool/rawprogram_core.xml 1
+copy_file out/ptool/patch0.xml 1
+copy_file out/ptool/gpt_both0.bin 1
+copy_file out/ptool/gpt_main0.bin 1
+copy_file out/ptool/gpt_backup0.bin 1
 copy_file dload/MPRG8064.hex
 copy_file dload/8064_msimage.mbn
+
+# remove cleanup ptool directory
+rm -R "$OUT/ptool"
 
 # bootloaders
 copy_file bootloaders/sbl1.mbn
