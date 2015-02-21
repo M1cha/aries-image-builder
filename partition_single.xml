@@ -23,7 +23,7 @@
 		<primary bootable="false" label="bk1" size="16604" readonly="false" filename="" type="0xE47D47D8693D798E477284830FC63DAF" uniqueguid="0xFDDCD7DE3B57EE0B87DA7C3D32E92BEA" />
 		<primary bootable="false" label="m9kefs3" size="1560" readonly="true" filename="" type="0xCB686A68810E5D8FE33B22C9BF64FB9C" uniqueguid="0x6EF543BEE262C44CC50B9A62477AE682" />
 		<primary bootable="false" label="bk2" size="129512" readonly="true" filename="" type="0xE47D47D8693D798E477284830FC63DAF" uniqueguid="0x47A401AE938DD4591C9067068D07AF26" />
-		<primary bootable="false" label="boot" size="30720" readonly="false" filename="boot.img" type="0x7D48D8C14B37EEB94357E98520117F86" uniqueguid="0xAB0F7BF3047E5AE69C63BE0ABC449E74" />
+		<primary bootable="false" label="boot" size="61440" readonly="false" filename="boot.img" type="0x7D48D8C14B37EEB94357E98520117F86" uniqueguid="0xAB0F7BF3047E5AE69C63BE0ABC449E74" />
 		<primary bootable="false" label="recovery" size="30720" readonly="false" filename="recovery.img" type="0x7D48D8C14B37EEB94357E98520117F86" uniqueguid="0xD80D3B8D0053669F520D0AD0C3719BC4" />
 		<primary bootable="false" label="bk3" size="22528" readonly="false" filename="" type="0xE47D47D8693D798E477284830FC63DAF" uniqueguid="0xAD6CDEBF636C002C453053F3EB23FD5A" />
 		<primary bootable="false" label="persist" size="16384" readonly="false" filename="" type="0xE47D47D8693D798E477284830FC63DAF" uniqueguid="0x100443AE725A63A8F5E607D1937BD1D5" />
