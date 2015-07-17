@@ -31,19 +31,30 @@ create_ext4_fs() {
 	mkfs.ext4 -F "$OUT/images/$1.img"
 }
 
+is_single_layout() {
+	echo "$1" | egrep -q "single\.xml$"
+
+	if [ $? -eq 0 ]; then
+		echo "true"
+	else
+		echo "false"
+	fi
+}
+
 get_partname() {
 	partname=${1%.*}
+	is_single=$(is_single_layout "$PARTXML")
 
 	[ "$partname" == "emmc_appsboot" ] && partname="aboot"
 	if [ "$partname" == "NON-HLOS" ];then
-		if [ "$PARTXML" == "partition_single.xml" ]; then
+		if [ "$is_single" == "true" ]; then
 			partname="modem"
 		else
 			partname="modem+modem1"
 		fi
 	fi
-	[ "$PARTXML" == "partition_single.xml" ] && [ "$partname" == "system" ] && partname="system+system1"
-	[ "$PARTXML" == "partition_single.xml" ] && [ "$partname" == "boot" ] && partname="boot+boot1"
+	[ "$is_single" == "true" ] && [ "$partname" == "system" ] && partname="system+system1"
+	[ "$is_single" == "true" ] && [ "$partname" == "boot" ] && partname="boot+boot1"
 	[ "$partname" == "gpt_both0" ] && partname="partition"
 
 	echo "$partname"
