@@ -2,7 +2,7 @@
 
 set -e
 
-PARTXML="partition.xml"
+PARTXML="partition_unified.xml"
 [[ -n "$1" ]] && PARTXML="$1"
 
 ROOT="$(pwd)"
