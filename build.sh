@@ -71,7 +71,7 @@ create_script_linux() {
 	echo "if [ \$? -ne 0 ] ; then echo \"Mismatching image and device\"; exit 1; fi" >> "$outfile"
 
 	if [[ "$partitions" =~ "gpt_both0.bin" ]]; then
-		echo "fastboot \$* getvar supports_partition_erase 2>&1 | grep \"^kernel: *true\$\"" >> "$outfile"
+		echo "fastboot \$* getvar supports_partition_erase 2>&1 | grep \"^supports_partition_erase: *true\$\"" >> "$outfile"
 		echo "if [ \$? -ne 0 ] ; then echo \"Mismatching Bootloader version\"; exit 1; fi" >> "$outfile"
 	fi
 
@@ -96,8 +96,8 @@ create_script_windows() {
 	echo "fastboot %* getvar soc-id 2>&1 | findstr /r /c:\"^soc-id: *109\" || exit /B 1" >> "$outfile"
 
 	if [[ "$partitions" =~ "gpt_both0.bin" ]]; then
-		echo "fastboot %* getvar supports_partition_erase 2>&1 | findstr /r /c:\"^kernel: *true\" || echo Mismatching Bootloader version" >> "$outfile"
-		echo "fastboot %* getvar supports_partition_erase 2>&1 | findstr /r /c:\"^kernel: *true\" || exit /B 1" >> "$outfile"
+		echo "fastboot %* getvar supports_partition_erase 2>&1 | findstr /r /c:\"^supports_partition_erase: *true\" || echo Mismatching Bootloader version" >> "$outfile"
+		echo "fastboot %* getvar supports_partition_erase 2>&1 | findstr /r /c:\"^supports_partition_erase: *true\" || exit /B 1" >> "$outfile"
 	fi
 
 	for file in $partitions ; do
