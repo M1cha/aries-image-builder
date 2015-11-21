@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<image>
+	<parser_instructions>
+		WRITE_PROTECT_BOUNDARY_IN_KB = 0
+		GROW_LAST_PARTITION_TO_FILL_DISK=true
+		ALIGN_ALL_LOGICAL_PARTITIONS_TO_WP_BOUNDARY=false
+	</parser_instructions>
+
+	<physical_partition>
+		<primary bootable="false" label="modem" size="348160" readonly="false" filename="NON-HLOS.bin" type="0xC79926B7B668C0874433B9E5EBD0A0A2" uniqueguid="A1E79EF4-A84D-CA4C-8240-562CA6E35A16" />
+		<primary bootable="false" label="sbl1" size="1024" readonly="false" filename="sbl1.mbn" type="0x983E1C2528F4F9B44805CBDDDEA0BA2C" uniqueguid="9400CBF3-5E89-3DEF-8BF5-3EB193D82032" />
+		<primary bootable="false" label="sbl2" size="1024" readonly="false" filename="sbl2.mbn" type="0x2DAE536E91AE09AD43988A9E8C6B52AD" uniqueguid="15E8E849-0F4D-1658-D0DF-426BFEBFE5AC" />
+		<primary bootable="false" label="sbl3" size="2048" readonly="false" filename="sbl3.mbn" type="0x6E7DE9824A379EB6432592F105E044DF" uniqueguid="41917924-4535-951A-4007-AD74FC3B30AB" />
+		<primary bootable="false" label="rpm" size="2048" readonly="false" filename="rpm.mbn" type="0x28227711D7894E9D413DD712098DF793" uniqueguid="539A35F9-02EF-6370-039E-C156ABAC4B40" />
+		<primary bootable="false" label="tz" size="2048" readonly="false" filename="tz.mbn" type="0xF4A471AC682F08BA4B1C40B8A053AA7F" uniqueguid="DD119E23-FA84-E8C5-45A6-EFB2815C9312" />
+		<primary bootable="false" label="DDR" size="1024" readonly="false" filename="" type="0x728763ACA7B6D8BF4FDD745E2C86E742" uniqueguid="61603A26-F2AC-C910-1A15-33789C2E8CA6" />
+		<primary bootable="false" label="aboot" size="8192" readonly="false" filename="emmc_appsboot.mbn" type="0x882338D96EF1239A47E722E0400FFDCD" uniqueguid="0452DCCE-0E63-EBE2-7D21-693415FB73D5" />
+		<primary bootable="false" label="misc" size="2048" readonly="false" filename="" type="0x7D48D8C14B37EEB94357E98520117F86" uniqueguid="5B6A446A-FB5C-F1E3-B14D-8598D746CF69" />
+		<primary bootable="false" label="logo" size="5840" readonly="false" filename="" type="0xE47D47D8693D798E477284830FC63DAF" uniqueguid="0072F88E-C10C-5445-393A-689FD2A48452" />
+		<primary bootable="false" label="m9kefs1" size="1560" readonly="false" filename="" type="0xCB686A68810E5D8FE33B22C92290BE64" uniqueguid="42A65B7E-88CE-11C9-24B8-84A749BD700A" />
+		<primary bootable="false" label="m9kefs2" size="1560" readonly="false" filename="" type="0xCB686A68810E5D8FE33B22C9346C26D1" uniqueguid="EA1A6226-BE0B-AE98-FFEF-28B77AA20BA4" />
+		<primary bootable="false" label="m9kefsc" size="2" readonly="false" filename="" type="0xCB686A68810E5D8FE33B22C95CB43A64" uniqueguid="4BED7DCD-1AFF-6402-0EB8-79700944ABA6" />
+		<primary bootable="false" label="bk1" size="16604" readonly="false" filename="" type="0xE47D47D8693D798E477284830FC63DAF" uniqueguid="5ADF20D4-E951-6C61-7F98-AE03ACADB9D8" />
+		<primary bootable="false" label="m9kefs3" size="1560" readonly="true" filename="" type="0xCB686A68810E5D8FE33B22C9BF64FB9C" uniqueguid="BEDF6969-13CE-FD53-F9FE-EBA141F32D96" />
+		<primary bootable="false" label="bk2" size="129512" readonly="true" filename="" type="0xE47D47D8693D798E477284830FC63DAF" uniqueguid="82EABF03-B92E-76B1-50D3-0585F1BA3AA5" />
+		<primary bootable="false" label="boot" size="61440" readonly="false" filename="boot.img" type="0x7D48D8C14B37EEB94357E98520117F86" uniqueguid="50998A15-EF76-7F07-7AAC-39D47C3E02EE" />
+		<primary bootable="false" label="recovery" size="30720" readonly="false" filename="recovery.img" type="0x7D48D8C14B37EEB94357E98520117F86" uniqueguid="4213C68F-B40D-857C-9B8A-A0A2AE204A5C" />
+		<primary bootable="false" label="bk3" size="22528" readonly="false" filename="" type="0xE47D47D8693D798E477284830FC63DAF" uniqueguid="A82C293E-6767-3DED-D359-59DF8FFA13FD" />
+		<primary bootable="false" label="persist" size="16384" readonly="false" filename="" type="0xE47D47D8693D798E477284830FC63DAF" uniqueguid="691AAE7E-2C1A-0B56-48DC-236A5A9F1E98" />
+		<primary bootable="false" label="system" size="2097152" readonly="true" filename="system.img" type="0xE47D47D8693D798E477284830FC63DAF" uniqueguid="BCC28DE9-F673-3134-A06A-A9D1724B5E04" />
+		<primary bootable="false" label="cache" size="786432" readonly="false" filename="cache.img" type="0xE47D47D8693D798E477284830FC63DAF" uniqueguid="98C1DF34-1E3C-0133-7842-EBF7F0848524" />
+		<primary bootable="false" label="userdata" size="7340032" readonly="false" filename="userdata.img" type="0xE47D47D8693D798E477284830FC63DAF" uniqueguid="D1869C6B-786D-3606-1E24-DA38944C67AE" />
+	</physical_partition>
+</image>
+
